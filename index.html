@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AYUSH VIGYANNI | Engineering Platform</title>
+    
+    <!-- Modern Dev Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* BASE & CSS RESET */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            background-color: #09090b; /* Very deep, almost black */
+            color: #a1a1aa; 
+            font-family: 'Inter', sans-serif; 
+            height: 100vh;
+            display: flex;
+            overflow: hidden; /* Prevent body scroll, handle inside layout */
+        }
+
+        /* TYPOGRAPHY & GRADIENTS */
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .badge {
+            background: rgba(96, 165, 250, 0.1);
+            color: #60a5fa;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- DASHBOARD LAYOUT --- */
+        
+        /* LEFT SIDEBAR */
+        .sidebar {
+            width: 320px;
+            background-color: #121214;
+            border-right: 1px solid #27272a;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .brand { margin-bottom: 40px; }
+        .brand h2 { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
+        .brand p { font-size: 13px; color: #71717a; margin-top: 4px; }
+
+        .section-title { font-size: 12px; font-weight: 600; color: #52525b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+
+        /* UPLOAD AREA */
+        .upload-card {
+            background: #18181b;
+            border: 1px dashed #3f3f46;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.2s;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .upload-card:hover { border-color: #60a5fa; background: #1a1b23; }
+        
+        input[type="file"] {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; cursor: pointer;
+        }
+        
+        .upload-content { pointer-events: none; }
+        .upload-content p { color: #fff; font-weight: 500; font-size: 14px; margin-bottom: 4px; }
+        .upload-content span { color: #71717a; font-size: 12px; }
+
+        /* SIDEBAR ACTIONS */
+        .sidebar-actions { margin-top: auto; }
+        
+        #downloadBtn {
+            width: 100%;
+            padding: 14px;
+            background: #fafafa;
+            color: #09090b;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: none;
+            box-shadow: 0 4px 12px rgba(250, 250, 250, 0.1);
+        }
+        #downloadBtn:hover { background: #e4e4e7; transform: translateY(-1px); }
+
+        /* MAIN CANVAS (RIGHT SIDE) */
+        .main-canvas {
+            flex-grow: 1;
+            padding: 32px 40px;
+            overflow-y: auto;
+            background: radial-gradient(circle at top right, rgba(96, 165, 250, 0.03), transparent 40%), #09090b;
+            position: relative;
+        }
+
+        .canvas-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #27272a;
+        }
+        
+        .canvas-header h1 { font-size: 20px; color: #fff; font-weight: 600; }
+
+        /* TOP SEARCH BAR */
+        .top-search-bar { display: none; margin-bottom: 24px; }
+        .search-row {
+            display: flex;
+            gap: 12px;
+            background: #121214;
+            padding: 6px;
+            border-radius: 10px;
+            border: 1px solid #27272a;
+        }
+        .search-row input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            padding: 10px 16px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+        }
+        .search-row input:focus { outline: none; }
+        
+        .primary-btn {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .primary-btn:hover { opacity: 0.9; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); }
+        
+        #searchResult { margin-top: 12px; font-size: 13px; margin-left: 8px; }
+
+        /* INSPECTOR PANEL (THE LIST) */
+        .inspector-panel { display: none; }
+        
+        .inspector-header {
+            color: #fff;
+            font-size: 13px;
+            margin: 32px 0 16px 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .inspector-header::before {
+            content: ''; display: block; width: 4px; height: 14px;
+            background: #8b5cf6; border-radius: 2px;
+        }
+
+        .ui-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            background: #121214;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #27272a;
+            transition: border-color 0.2s;
+        }
+        .ui-row:hover { border-color: #3f3f46; }
+        
+        .ui-row label { 
+            font-family: 'JetBrains Mono', monospace; 
+            color: #a1a1aa; 
+            font-size: 13px; 
+            width: 45%; 
+        }
+        
+        .ui-row input {
+            width: 50%;
+            background: #09090b;
+            border: 1px solid #3f3f46;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+        .ui-row input:focus { outline: none; border-color: #60a5fa; }
+
+        /* VISUAL EDITOR (IFRAME) */
+        .visual-panel { display: none; width: 100%; height: calc(100vh - 180px); border-radius: 12px; overflow: hidden; border: 1px solid #27272a; }
+        iframe { width: 100%; height: 100%; background: #fff; border: none; }
+
+        /* BOTTOM ADD SECTION */
+        .add-section { 
+            margin-top: 32px; 
+            display: flex; 
+            gap: 12px; 
+            background: #121214; 
+            padding: 16px; 
+            border-radius: 10px; 
+            border: 1px solid #27272a; 
+        }
+        .add-section input {
+            flex-grow: 1;
+            background: #09090b;
+            border: 1px solid #3f3f46;
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 6px;
+        }
+        .add-section input:focus { outline: none; border-color: #8b5cf6; }
+
+        .quick-add-btn { background: #27272a; color: #fff; border: 1px solid #3f3f46; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; margin-left: 10px; }
+        .quick-add-btn:hover { background: #3f3f46; }
+
+        /* --- ENGINEERING GLASSMORPHISM ERROR UI --- */
+        .error-tab {
+            position: fixed; bottom: 30px; right: 40px;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            padding: 12px 20px; border-radius: 8px; font-weight: 600; cursor: pointer;
+            display: none; z-index: 1000; font-size: 14px;
+        }
+        .error-tab:hover { background: rgba(239, 68, 68, 0.15); }
+        
+        .error-panel {
+            position: fixed; bottom: 80px; right: 40px; width: 420px;
+            background: rgba(18, 18, 20, 0.85);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid #3f3f46;
+            border-top: 3px solid #ef4444;
+            border-radius: 12px; padding: 24px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            display: none; z-index: 999;
+        }
+        
+        .error-panel h4 { color: #fff; font-size: 16px; font-weight: 600; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .close-error { color: #71717a; cursor: pointer; font-size: 20px; }
+        .close-error:hover { color: #fff; }
+        
+        .code-compare { margin-bottom: 16px; border-radius: 8px; overflow: hidden; border: 1px solid #27272a; }
+        .err-row { display: flex; padding: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+        .err-old { background: rgba(239, 68, 68, 0.05); color: #f87171; border-bottom: 1px solid #27272a; }
+        .err-new { background: rgba(16, 185, 129, 0.05); color: #34d399; }
+        .err-icon { width: 24px; font-weight: bold; }
+        
+        .hinglish-text { font-size: 13px; color: #a1a1aa; margin-bottom: 24px; line-height: 1.6; }
+        
+        .fix-btn {
+            width: 100%; background: #fff; color: #09090b; border: none;
+            padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer;
+            transition: 0.2s;
+        }
+        .fix-btn:hover { background: #e4e4e7; }
+    </style>
+</head>
+<body>
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <h2 class="gradient-text">AYUSH VIGYANNI</h2>
+            <p>Local Engineering Platform</p>
+        </div>
+
+        <div class="section-title">Source Input</div>
+        <div class="upload-card">
+            <input type="file" id="scriptUpload" accept=".js, .py, .cpp, .cs, .html, .htm, .txt">
+            <div class="upload-content">
+                <p>Drag & Drop or Click</p>
+                <span>Supports .cpp, .py, .js, .html</span>
+            </div>
+        </div>
+
+        <div class="sidebar-actions">
+            <button id="downloadBtn">Deploy Modified Source</button>
+        </div>
+    </aside>
+
+    <!-- RIGHT MAIN CANVAS -->
+    <main class="main-canvas">
+        
+        <div class="canvas-header">
+            <h1>Workspace <span id="modeBadge" class="badge">Awaiting Input</span></h1>
+        </div>
+
+        <div class="top-search-bar" id="topSearchBar">
+            <div class="search-row">
+                <input type="text" id="functionSearchInput" placeholder="Locate function or class (e.g., init, calcMatrix)...">
+                <button id="searchFuncBtn" class="primary-btn">Query</button>
+            </div>
+            <div id="searchResult"></div>
+        </div>
+
+        <div class="inspector-panel" id="inspectorPanel">
+            <div id="uiContainer"></div>
+            
+            <div class="add-section" id="addSection" style="display: none;">
+                <input type="text" id="addInput" placeholder="Command inject (e.g. var, h1, category_name)...">
+                <button id="addBtn" class="primary-btn">Execute</button>
+            </div>
+        </div>
+
+        <div class="visual-panel" id="visualPanel">
+            <iframe id="visualEditor"></iframe>
+        </div>
+
+    </main>
+
+    <!-- FLOATING ERROR UI -->
+    <div class="error-tab" id="errorTab">Alert: Anomalies Detected</div>
+    
+    <div class="error-panel" id="errorPanel">
+        <h4><span>System Auto-Analyzer (Line <span id="errLineNum"></span>)</span><span class="close-error" id="closeErrorPanel">&times;</span></h4>
+        
+        <div class="code-compare">
+            <div class="err-row err-old">
+                <span class="err-icon">-</span><span id="errCodeText"></span>
+            </div>
+            <div class="err-row err-new">
+                <span class="err-icon">+</span><span id="fixCodeText"></span>
+            </div>
+        </div>
+
+        <div class="hinglish-text" id="errHinglish"></div>
+        <button class="fix-btn" id="autoFixBtn">Resolve Issue Automatically</button>
+    </div>
+
+    <!-- LOGIC SCRIPT -->
+    <script>
+        let currentCodeLines = [];
+        let originalFileName = "modified_file.txt";
+        let isHtmlMode = false;
+        let htmlContent = "";
+        let currentExtension = ""; 
+        let foundError = null; 
+
+        const commonTypos = {
+            "functon": "function", "funtion": "function", "funciton": "function",
+            "whle": "while", "retun": "return", "retrun": "return",
+            "prit": "print", "prnt": "print", "consol.log": "console.log",
+            "consle.log": "console.log", "ture": "true", "flase": "false"
+        };
+
+        const DOM = {
+            upload: document.getElementById('scriptUpload'),
+            topSearchBar: document.getElementById('topSearchBar'),
+            funcSearchInput: document.getElementById('functionSearchInput'),
+            searchFuncBtn: document.getElementById('searchFuncBtn'),
+            searchResult: document.getElementById('searchResult'),
+            inspector: document.getElementById('inspectorPanel'),
+            visual: document.getElementById('visualPanel'),
+            iframe: document.getElementById('visualEditor'),
+            uiContainer: document.getElementById('uiContainer'),
+            addSection: document.getElementById('addSection'),
+            addInput: document.getElementById('addInput'),
+            addBtn: document.getElementById('addBtn'),
+            downloadBtn: document.getElementById('downloadBtn'),
+            errorTab: document.getElementById('errorTab'),
+            errorPanel: document.getElementById('errorPanel'),
+            closeErrorPanel: document.getElementById('closeErrorPanel'),
+            errLineNum: document.getElementById('errLineNum'),
+            errCodeText: document.getElementById('errCodeText'),
+            fixCodeText: document.getElementById('fixCodeText'),
+            errHinglish: document.getElementById('errHinglish'),
+            autoFixBtn: document.getElementById('autoFixBtn'),
+            modeBadge: document.getElementById('modeBadge')
+        };
+
+        DOM.upload.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            originalFileName = file.name;
+            currentExtension = file.name.split('.').pop().toLowerCase();
+            
+            // Visual feedback on the upload box
+            const uploadText = document.querySelector('.upload-content p');
+            uploadText.innerText = file.name;
+            uploadText.style.color = "#60a5fa";
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const rawCode = e.target.result;
+                DOM.errorTab.style.display = 'none';
+                DOM.errorPanel.style.display = 'none';
+                foundError = null;
+
+                if (['html', 'htm'].includes(currentExtension)) {
+                    isHtmlMode = true; htmlContent = rawCode;
+                    setupVisualEditor();
+                    DOM.topSearchBar.style.display = 'none'; 
+                } else {
+                    isHtmlMode = false; currentCodeLines = rawCode.split('\n');
+                    checkForErrors(); setupInspector();
+                    DOM.topSearchBar.style.display = 'block'; 
+                    DOM.searchResult.innerHTML = ''; DOM.funcSearchInput.value = '';
+                }
+                DOM.addSection.style.display = 'flex';
+                DOM.downloadBtn.style.display = 'block';
+            };
+            reader.readAsText(file);
+        });
+
+        function checkForErrors() {
+            foundError = null;
+            const isPython = (currentExtension === 'py');
+            const isCStyle = ['cpp', 'cs', 'c', 'js', 'java'].includes(currentExtension);
+
+            for(let i = 0; i < currentCodeLines.length; i++) {
+                let line = currentCodeLines[i]; let trimmed = line.trim();
+                if(trimmed === "" || trimmed.startsWith("//") || trimmed.startsWith("#")) continue;
+
+                let typoFound = false;
+                for (const [badWord, goodWord] of Object.entries(commonTypos)) {
+                    const regex = new RegExp(`\\b${badWord}\\b`, 'g'); 
+                    if (regex.test(line)) {
+                        foundError = { index: i, original: line, fixed: line.replace(regex, goodWord), hinglish: `Typo detected! You wrote '${badWord}' instead of '${goodWord}'. This will cause execution failure.` };
+                        typoFound = true; break; 
+                    }
+                }
+                if (typoFound) break; 
+
+                if(isCStyle) {
+                    if (trimmed.includes("=") && !trimmed.endsWith(";") && !trimmed.endsWith("{") && !trimmed.endsWith(",")) {
+                        if(trimmed.match(/\b([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(["']?[^;]+["']?)$/)) {
+                            foundError = { index: i, original: line, fixed: line + ";", hinglish: "Syntax Error: Missing semicolon (;) at the end of statement." }; break;
+                        }
+                    }
+                } else if (isPython) {
+                    if ((trimmed.startsWith("def ") || trimmed.startsWith("if ") || trimmed.startsWith("for ") || trimmed.startsWith("while ")) && !trimmed.endsWith(":")) {
+                        foundError = { index: i, original: line, fixed: line + ":", hinglish: "Syntax Error: Python requires a colon (:) to start a code block." }; break;
+                    }
+                }
+            }
+            if(foundError) DOM.errorTab.style.display = 'block';
+        }
+
+        DOM.errorTab.addEventListener('click', () => {
+            if(!foundError) return;
+            DOM.errLineNum.innerText = foundError.index + 1;
+            DOM.errCodeText.innerText = foundError.original.trim();
+            DOM.fixCodeText.innerText = foundError.fixed.trim();
+            DOM.errHinglish.innerText = foundError.hinglish;
+            DOM.errorTab.style.display = 'none'; DOM.errorPanel.style.display = 'block';
+        });
+
+        DOM.closeErrorPanel.addEventListener('click', () => { DOM.errorPanel.style.display = 'none'; DOM.errorTab.style.display = 'block'; });
+
+        // ========= THIS IS THE UPDATED BUTTON LOGIC =========
+        DOM.autoFixBtn.addEventListener('click', () => {
+            if(foundError) {
+                // 1. Fix the error
+                currentCodeLines[foundError.index] = foundError.fixed;
+                
+                // 2. Hide error panel and error tab completely
+                DOM.errorPanel.style.display = 'none'; 
+                DOM.errorTab.style.display = 'none';
+                foundError = null; 
+                
+                // 3. Re-check for new errors and setup inspector
+                checkForErrors(); 
+                setupInspector();
+
+                // 4. Trigger download automatically 
+                DOM.downloadBtn.click();
+            }
+        });
+        // ====================================================
+
+        DOM.searchFuncBtn.addEventListener('click', () => {
+            const searchTerm = DOM.funcSearchInput.value.trim().replace(/\s/g, '');
+            if(!searchTerm) return;
+            let found = false; const searchRegex = new RegExp(`\\b${searchTerm}\\b`, 'i'); 
+
+            for(let line of currentCodeLines) {
+                if(searchRegex.test(line) && (line.includes('function') || line.includes('def') || line.includes('void') || line.includes('('))) { found = true; break; }
+            }
+
+            if(found) {
+                DOM.searchResult.innerHTML = `<span style="color: #34d399;">System: Block '${searchTerm}' verified active.</span>`;
+            } else {
+                DOM.searchResult.innerHTML = `
+                    <span style="color: #f87171;">System: Block not found.</span> 
+                    <button class="quick-add-btn" id="quickAddFuncBtn">Initialize ${searchTerm}()</button>
+                `;
+                document.getElementById('quickAddFuncBtn').onclick = () => {
+                    const isPython = (currentExtension === 'py'); const isCStyle = ['cpp', 'cs', 'c', 'java'].includes(currentExtension);
+                    let codeToAdd = isPython ? `\ndef ${searchTerm}():\n    pass\n` : (isCStyle ? `\nvoid ${searchTerm}() {\n}\n` : `\nfunction ${searchTerm}() {\n}\n`);
+                    let commentHeader = isPython ? `\n\n# MODULE: ${searchTerm}` : `\n\n// MODULE: ${searchTerm}`;
+                    currentCodeLines.push(commentHeader); currentCodeLines.push(codeToAdd);
+                    DOM.searchResult.innerHTML = `<span style="color: #34d399;">System: Block initialized.</span>`;
+                    setupInspector(); 
+                };
+            }
+        });
+
+        function setupInspector() {
+            DOM.modeBadge.innerText = `Parsing .${currentExtension}`;
+            DOM.modeBadge.style.color = "#8b5cf6"; DOM.modeBadge.style.background = "rgba(139, 92, 246, 0.1)"; DOM.modeBadge.style.borderColor = "rgba(139, 92, 246, 0.2)";
+            DOM.visual.style.display = 'none'; DOM.inspector.style.display = 'block';
+            DOM.uiContainer.innerHTML = '';
+
+            const variableRegex = /\b([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(["']?[^;]+["']?)/;
+            const headerRegex = /^\s*(#|\/\/)\s*(.+)$/;
+
+            currentCodeLines.forEach((line, index) => {
+                const headerMatch = line.match(headerRegex);
+                if (headerMatch) {
+                    const headerTitle = document.createElement('div'); headerTitle.className = 'inspector-header';
+                    headerTitle.innerText = headerMatch[2]; DOM.uiContainer.appendChild(headerTitle); return; 
+                }
+
+                const match = line.match(variableRegex);
+                if (match && !line.includes("==") && !line.includes("!=")) { 
+                    const varName = match[1]; let varValue = match[2];
+                    const row = document.createElement('div'); row.className = 'ui-row';
+                    const label = document.createElement('label'); label.innerText = varName;
+                    const input = document.createElement('input');
+                    let cleanValue = varValue.replace(/["']/g, ''); 
+                    if(cleanValue.endsWith('f')) cleanValue = cleanValue.slice(0, -1);
+                    
+                    input.value = cleanValue; input.type = isNaN(cleanValue) ? "text" : "number";
+                    input.addEventListener('input', (e) => {
+                        let newVal = e.target.value;
+                        if(varValue.includes('"')) newVal = `"${newVal}"`; else if(varValue.includes("'")) newVal = `'${newVal}'`; else if(varValue.endsWith('f')) newVal = `${newVal}f`;
+                        currentCodeLines[index] = line.replace(varValue, newVal);
+                    });
+                    row.appendChild(label); row.appendChild(input); DOM.uiContainer.appendChild(row);
+                }
+            });
+        }
+
+        function setupVisualEditor() {
+            DOM.modeBadge.innerText = "DOM Rendering";
+            DOM.modeBadge.style.color = "#fbbf24"; DOM.modeBadge.style.background = "rgba(251, 191, 36, 0.1)"; DOM.modeBadge.style.borderColor = "rgba(251, 191, 36, 0.2)";
+            DOM.inspector.style.display = 'none'; DOM.visual.style.display = 'block';
+            const iframeDoc = DOM.iframe.contentWindow.document;
+            iframeDoc.open(); iframeDoc.write(htmlContent); iframeDoc.close();
+            iframeDoc.designMode = "on"; 
+            iframeDoc.body.style.fontFamily = "'Inter', sans-serif"; iframeDoc.body.style.padding = "20px";
+        }
+
+        DOM.addBtn.addEventListener('click', () => {
+            const searchVal = DOM.addInput.value.toLowerCase().trim();
+            if(!searchVal) return;
+            if (isHtmlMode) {
+                const iframeDoc = DOM.iframe.contentWindow.document;
+                let elementHTML = searchVal === "h1" ? "<h1>New Heading</h1>" : (searchVal === "button" ? "<button>Click Me</button>" : `<div style="border:1px dashed #ccc; padding:10px;">New ${searchVal}</div>`);
+                iframeDoc.body.innerHTML += elementHTML;
+            } else {
+                const isPython = (currentExtension === 'py'); const isCStyle = ['cpp', 'cs', 'c', 'java'].includes(currentExtension);
+                let codeToAdd = (searchVal === "var" || searchVal === "variable") ? (isPython ? "\nnew_variable = 0\n" : (isCStyle ? "\nint newVariable = 0;\n" : "\nlet newVariable = 0;\n")) : (isPython ? `\n# ${searchVal}\n` : `\n// ${searchVal}\n`);
+                currentCodeLines.push(codeToAdd); setupInspector(); 
+            }
+            DOM.addInput.value = "";
+        });
+
+        DOM.downloadBtn.addEventListener('click', () => {
+            let finalCode = isHtmlMode ? "<!DOCTYPE html>\n" + DOM.iframe.contentWindow.document.documentElement.outerHTML : currentCodeLines.join('\n');
+            const blob = new Blob([finalCode], { type: "text/plain" });
+            const link = document.createElement("a"); link.href = URL.createObjectURL(blob);
+            link.download = "AYUSH_VIGYANNI_" + originalFileName; link.click(); URL.revokeObjectURL(link.href);
+        });
+    </script>
+</body>
+</html>
