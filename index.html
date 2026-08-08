@@ -12,265 +12,104 @@
         /* BASE & CSS RESET */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
-            background-color: #09090b; /* Very deep, almost black */
-            color: #a1a1aa; 
-            font-family: 'Inter', sans-serif; 
-            height: 100vh;
-            display: flex;
-            overflow: hidden; /* Prevent body scroll, handle inside layout */
+            background-color: #09090b; color: #a1a1aa; font-family: 'Inter', sans-serif; 
+            height: 100vh; display: flex; overflow: hidden;
         }
 
         /* TYPOGRAPHY & GRADIENTS */
-        .gradient-text {
-            background: linear-gradient(135deg, #60a5fa, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .badge {
-            background: rgba(96, 165, 250, 0.1);
-            color: #60a5fa;
-            border: 1px solid rgba(96, 165, 250, 0.2);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+        .gradient-text { background: linear-gradient(135deg, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .badge { background: rgba(96, 165, 250, 0.1); color: #60a5fa; border: 1px solid rgba(96, 165, 250, 0.2); padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* --- DASHBOARD LAYOUT --- */
-        
         /* LEFT SIDEBAR */
-        .sidebar {
-            width: 320px;
-            background-color: #121214;
-            border-right: 1px solid #27272a;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            z-index: 10;
-        }
-
+        .sidebar { width: 320px; background-color: #121214; border-right: 1px solid #27272a; padding: 24px; display: flex; flex-direction: column; z-index: 10; }
         .brand { margin-bottom: 40px; }
         .brand h2 { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
         .brand p { font-size: 13px; color: #71717a; margin-top: 4px; }
-
         .section-title { font-size: 12px; font-weight: 600; color: #52525b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
 
         /* UPLOAD AREA */
-        .upload-card {
-            background: #18181b;
-            border: 1px dashed #3f3f46;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.2s;
-            margin-bottom: 30px;
-            position: relative;
-        }
+        .upload-card { background: #18181b; border: 1px dashed #3f3f46; border-radius: 12px; padding: 20px; text-align: center; transition: all 0.2s; margin-bottom: 30px; position: relative; }
         .upload-card:hover { border-color: #60a5fa; background: #1a1b23; }
-        
-        input[type="file"] {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; cursor: pointer;
-        }
-        
+        input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
         .upload-content { pointer-events: none; }
         .upload-content p { color: #fff; font-weight: 500; font-size: 14px; margin-bottom: 4px; }
         .upload-content span { color: #71717a; font-size: 12px; }
 
-        /* SIDEBAR ACTIONS */
-        .sidebar-actions { margin-top: auto; }
+        .sidebar-actions { margin-top: auto; display: flex; flex-direction: column; gap: 10px; }
         
-        #downloadBtn {
-            width: 100%;
-            padding: 14px;
-            background: #fafafa;
-            color: #09090b;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: 0.2s;
-            display: none;
-            box-shadow: 0 4px 12px rgba(250, 250, 250, 0.1);
-        }
+        .hint-btn { width: 100%; padding: 12px; background: #27272a; color: #fff; border: 1px solid #3f3f46; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .hint-btn:hover { background: #3f3f46; }
+
+        #downloadBtn { width: 100%; padding: 14px; background: #fafafa; color: #09090b; border: none; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; display: none; box-shadow: 0 4px 12px rgba(250, 250, 250, 0.1); }
         #downloadBtn:hover { background: #e4e4e7; transform: translateY(-1px); }
 
-        /* MAIN CANVAS (RIGHT SIDE) */
-        .main-canvas {
-            flex-grow: 1;
-            padding: 32px 40px;
-            overflow-y: auto;
-            background: radial-gradient(circle at top right, rgba(96, 165, 250, 0.03), transparent 40%), #09090b;
-            position: relative;
-        }
-
-        .canvas-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #27272a;
-        }
-        
+        /* MAIN CANVAS */
+        .main-canvas { flex-grow: 1; padding: 32px 40px; overflow-y: auto; background: radial-gradient(circle at top right, rgba(96, 165, 250, 0.03), transparent 40%), #09090b; position: relative; }
+        .canvas-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid #27272a; }
         .canvas-header h1 { font-size: 20px; color: #fff; font-weight: 600; }
 
         /* TOP SEARCH BAR */
         .top-search-bar { display: none; margin-bottom: 24px; }
-        .search-row {
-            display: flex;
-            gap: 12px;
-            background: #121214;
-            padding: 6px;
-            border-radius: 10px;
-            border: 1px solid #27272a;
-        }
-        .search-row input {
-            flex-grow: 1;
-            background: transparent;
-            border: none;
-            padding: 10px 16px;
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-        }
+        .search-row { display: flex; gap: 12px; background: #121214; padding: 6px; border-radius: 10px; border: 1px solid #27272a; }
+        .search-row input { flex-grow: 1; background: transparent; border: none; padding: 10px 16px; color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; }
         .search-row input:focus { outline: none; }
-        
-        .primary-btn {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+        .primary-btn { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; }
         .primary-btn:hover { opacity: 0.9; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); }
-        
         #searchResult { margin-top: 12px; font-size: 13px; margin-left: 8px; }
 
-        /* INSPECTOR PANEL (THE LIST) */
+        /* INSPECTOR PANEL */
         .inspector-panel { display: none; }
-        
-        .inspector-header {
-            color: #fff;
-            font-size: 13px;
-            margin: 32px 0 16px 0;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .inspector-header::before {
-            content: ''; display: block; width: 4px; height: 14px;
-            background: #8b5cf6; border-radius: 2px;
-        }
+        .inspector-header { color: #fff; font-size: 13px; margin: 32px 0 16px 0; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .inspector-header::before { content: ''; display: block; width: 4px; height: 14px; background: #8b5cf6; border-radius: 2px; }
 
-        .ui-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            background: #121214;
-            padding: 12px 16px;
-            border-radius: 8px;
-            border: 1px solid #27272a;
-            transition: border-color 0.2s;
-        }
+        /* CLASS CARDS */
+        .class-card { background: rgba(139, 92, 246, 0.05); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 10px; padding: 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-start; transition: 0.2s; }
+        .class-card:hover { border-color: rgba(139, 92, 246, 0.4); background: rgba(139, 92, 246, 0.08); }
+        .class-info strong { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #fff; display: block; margin-bottom: 6px; }
+        .class-meaning { font-size: 12.5px; color: #a1a1aa; line-height: 1.5; }
+        .remove-btn { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 6px; padding: 6px 10px; cursor: pointer; font-size: 12px; transition: 0.2s; }
+        .remove-btn:hover { background: rgba(239, 68, 68, 0.2); }
+
+        /* UI ROWS (VARIABLES) */
+        .ui-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; background: #121214; padding: 12px 16px; border-radius: 8px; border: 1px solid #27272a; transition: border-color 0.2s; }
         .ui-row:hover { border-color: #3f3f46; }
-        
-        .ui-row label { 
-            font-family: 'JetBrains Mono', monospace; 
-            color: #a1a1aa; 
-            font-size: 13px; 
-            width: 45%; 
-        }
-        
-        .ui-row input {
-            width: 50%;
-            background: #09090b;
-            border: 1px solid #3f3f46;
-            color: #fff;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            transition: 0.2s;
-        }
+        .ui-row label { font-family: 'JetBrains Mono', monospace; color: #a1a1aa; font-size: 13px; width: 45%; }
+        .ui-row input { width: 50%; background: #09090b; border: 1px solid #3f3f46; color: #fff; padding: 8px 12px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 13px; transition: 0.2s; }
         .ui-row input:focus { outline: none; border-color: #60a5fa; }
 
-        /* VISUAL EDITOR (IFRAME) */
+        /* VISUAL EDITOR */
         .visual-panel { display: none; width: 100%; height: calc(100vh - 180px); border-radius: 12px; overflow: hidden; border: 1px solid #27272a; }
         iframe { width: 100%; height: 100%; background: #fff; border: none; }
 
         /* BOTTOM ADD SECTION */
-        .add-section { 
-            margin-top: 32px; 
-            display: flex; 
-            gap: 12px; 
-            background: #121214; 
-            padding: 16px; 
-            border-radius: 10px; 
-            border: 1px solid #27272a; 
-        }
-        .add-section input {
-            flex-grow: 1;
-            background: #09090b;
-            border: 1px solid #3f3f46;
-            color: #fff;
-            padding: 10px 16px;
-            border-radius: 6px;
-        }
+        .add-section { margin-top: 32px; display: flex; gap: 12px; background: #121214; padding: 16px; border-radius: 10px; border: 1px solid #27272a; }
+        .add-section input { flex-grow: 1; background: #09090b; border: 1px solid #3f3f46; color: #fff; padding: 10px 16px; border-radius: 6px; }
         .add-section input:focus { outline: none; border-color: #8b5cf6; }
-
         .quick-add-btn { background: #27272a; color: #fff; border: 1px solid #3f3f46; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; margin-left: 10px; }
         .quick-add-btn:hover { background: #3f3f46; }
 
-        /* --- ENGINEERING GLASSMORPHISM ERROR UI --- */
-        .error-tab {
-            position: fixed; bottom: 30px; right: 40px;
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3);
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            padding: 12px 20px; border-radius: 8px; font-weight: 600; cursor: pointer;
-            display: none; z-index: 1000; font-size: 14px;
-        }
-        .error-tab:hover { background: rgba(239, 68, 68, 0.15); }
-        
-        .error-panel {
-            position: fixed; bottom: 80px; right: 40px; width: 420px;
-            background: rgba(18, 18, 20, 0.85);
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border: 1px solid #3f3f46;
-            border-top: 3px solid #ef4444;
-            border-radius: 12px; padding: 24px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-            display: none; z-index: 999;
-        }
-        
+        /* HINT MODAL POPUP */
+        .hint-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .hint-content { background: #121214; padding: 30px; border-radius: 12px; border: 1px solid #3f3f46; width: 90%; max-width: 500px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
+        .hint-content h3 { color: #fff; margin-bottom: 20px; font-size: 18px; border-bottom: 1px solid #27272a; padding-bottom: 10px; }
+        .hint-content ul { list-style: none; }
+        .hint-content li { background: #18181b; padding: 15px; margin-bottom: 12px; border-radius: 8px; border-left: 3px solid #8b5cf6; font-size: 13.5px; line-height: 1.5; color: #a1a1aa; }
+        .hint-content li strong { color: #c084fc; font-size: 14.5px; }
+        .close-hint { position: absolute; top: 20px; right: 20px; font-size: 24px; color: #71717a; cursor: pointer; transition: 0.2s; line-height: 1; }
+        .close-hint:hover { color: #fff; }
+
+        /* ERROR UI */
+        .error-tab { position: fixed; bottom: 30px; right: 40px; background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); backdrop-filter: blur(8px); padding: 12px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; display: none; z-index: 1000; font-size: 14px; }
+        .error-panel { position: fixed; bottom: 80px; right: 40px; width: 420px; background: rgba(18, 18, 20, 0.85); backdrop-filter: blur(16px); border: 1px solid #3f3f46; border-top: 3px solid #ef4444; border-radius: 12px; padding: 24px; box-shadow: 0 30px 60px rgba(0,0,0,0.6); display: none; z-index: 999; }
         .error-panel h4 { color: #fff; font-size: 16px; font-weight: 600; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
         .close-error { color: #71717a; cursor: pointer; font-size: 20px; }
-        .close-error:hover { color: #fff; }
-        
         .code-compare { margin-bottom: 16px; border-radius: 8px; overflow: hidden; border: 1px solid #27272a; }
         .err-row { display: flex; padding: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
         .err-old { background: rgba(239, 68, 68, 0.05); color: #f87171; border-bottom: 1px solid #27272a; }
         .err-new { background: rgba(16, 185, 129, 0.05); color: #34d399; }
         .err-icon { width: 24px; font-weight: bold; }
-        
         .hinglish-text { font-size: 13px; color: #a1a1aa; margin-bottom: 24px; line-height: 1.6; }
-        
-        .fix-btn {
-            width: 100%; background: #fff; color: #09090b; border: none;
-            padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer;
-            transition: 0.2s;
-        }
-        .fix-btn:hover { background: #e4e4e7; }
+        .fix-btn { width: 100%; background: #fff; color: #09090b; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; }
     </style>
 </head>
 <body>
@@ -287,18 +126,18 @@
             <input type="file" id="scriptUpload" accept=".js, .py, .cpp, .cs, .html, .htm, .txt">
             <div class="upload-content">
                 <p>Drag & Drop or Click</p>
-                <span>Supports .cpp, .py, .js, .html</span>
+                <span>Supports .cs, .cpp, .py, .js</span>
             </div>
         </div>
 
         <div class="sidebar-actions">
+            <button class="hint-btn" id="hintBtn">💡 Quick Help</button>
             <button id="downloadBtn">Deploy Modified Source</button>
         </div>
     </aside>
 
     <!-- RIGHT MAIN CANVAS -->
     <main class="main-canvas">
-        
         <div class="canvas-header">
             <h1>Workspace <span id="modeBadge" class="badge">Awaiting Input</span></h1>
         </div>
@@ -315,7 +154,7 @@
             <div id="uiContainer"></div>
             
             <div class="add-section" id="addSection" style="display: none;">
-                <input type="text" id="addInput" placeholder="Command inject (e.g. var, h1, category_name)...">
+                <input type="text" id="addInput" placeholder="Command inject (e.g. public class Enemy, var speed)...">
                 <button id="addBtn" class="primary-btn">Execute</button>
             </div>
         </div>
@@ -323,26 +162,31 @@
         <div class="visual-panel" id="visualPanel">
             <iframe id="visualEditor"></iframe>
         </div>
-
     </main>
+
+    <!-- HINT MODAL (NEW) -->
+    <div class="hint-modal" id="hintModal">
+        <div class="hint-content">
+            <span class="close-hint" id="closeHint">&times;</span>
+            <h3>💡 AYUSH VIGYANNI - Quick Hints</h3>
+            <ul>
+                <li><strong>🧠 Smart Meaning:</strong> Code mein bahut saari classes hain? Tension nahi! App khud padh kar Hinglish mein bata dega ki kaunsi class kya karti hai.</li>
+                <li><strong>🛡️ Safe Delete:</strong> Kisi class ko hatana hai? Bas <b>'🗑️ Remove'</b> dabao. App opening <code>{</code> se closing <code>}</code> tak bracket match karke perfectly delete karega. Code break nahi hoga!</li>
+                <li><strong>⚡ Quick Inject:</strong> Nayi class banani hai? Niche command box mein bas <code>public class Car</code> likho aur <b>Execute</b> dabao. Code structure apne aap ban jayega.</li>
+            </ul>
+        </div>
+    </div>
 
     <!-- FLOATING ERROR UI -->
     <div class="error-tab" id="errorTab">Alert: Anomalies Detected</div>
-    
     <div class="error-panel" id="errorPanel">
         <h4><span>System Auto-Analyzer (Line <span id="errLineNum"></span>)</span><span class="close-error" id="closeErrorPanel">&times;</span></h4>
-        
         <div class="code-compare">
-            <div class="err-row err-old">
-                <span class="err-icon">-</span><span id="errCodeText"></span>
-            </div>
-            <div class="err-row err-new">
-                <span class="err-icon">+</span><span id="fixCodeText"></span>
-            </div>
+            <div class="err-row err-old"><span class="err-icon">-</span><span id="errCodeText"></span></div>
+            <div class="err-row err-new"><span class="err-icon">+</span><span id="fixCodeText"></span></div>
         </div>
-
         <div class="hinglish-text" id="errHinglish"></div>
-        <button class="fix-btn" id="autoFixBtn">Resolve Issue Automatically</button>
+        <button class="fix-btn" id="autoFixBtn">Resolve Issue & Auto-Deploy</button>
     </div>
 
     <!-- LOGIC SCRIPT -->
@@ -354,11 +198,20 @@
         let currentExtension = ""; 
         let foundError = null; 
 
+        // AI Dictionary for Class Meanings (Hinglish)
+        const classMeanings = {
+            "Player": "Main character ka data (health, stamina) aur movement sambhalta hai.",
+            "Enemy": "Dushman ka AI, damage logic aur health bar control karta hai.",
+            "GameManager": "Game ka score, level transitions aur core state manage karta hai.",
+            "UIController": "Screen par text, pause menu aur buttons dikhane ka kaam karta hai.",
+            "Weapon": "Gun ya sword ka damage, fire-rate aur reload logic yahan hota hai.",
+            "CameraManager": "Player ko follow karna aur screen shake effects control karta hai."
+        };
+
         const commonTypos = {
             "functon": "function", "funtion": "function", "funciton": "function",
-            "whle": "while", "retun": "return", "retrun": "return",
-            "prit": "print", "prnt": "print", "consol.log": "console.log",
-            "consle.log": "console.log", "ture": "true", "flase": "false"
+            "whle": "while", "retun": "return", "retrun": "return", "prit": "print", 
+            "consol.log": "console.log", "ture": "true", "flase": "false"
         };
 
         const DOM = {
@@ -383,20 +236,24 @@
             fixCodeText: document.getElementById('fixCodeText'),
             errHinglish: document.getElementById('errHinglish'),
             autoFixBtn: document.getElementById('autoFixBtn'),
-            modeBadge: document.getElementById('modeBadge')
+            modeBadge: document.getElementById('modeBadge'),
+            hintBtn: document.getElementById('hintBtn'),
+            hintModal: document.getElementById('hintModal'),
+            closeHint: document.getElementById('closeHint')
         };
+
+        // Modal Logic
+        DOM.hintBtn.addEventListener('click', () => DOM.hintModal.style.display = 'flex');
+        DOM.closeHint.addEventListener('click', () => DOM.hintModal.style.display = 'none');
+        window.addEventListener('click', (e) => { if(e.target === DOM.hintModal) DOM.hintModal.style.display = 'none'; });
 
         DOM.upload.addEventListener('change', function(event) {
             const file = event.target.files[0];
             if (!file) return;
-
             originalFileName = file.name;
             currentExtension = file.name.split('.').pop().toLowerCase();
-            
-            // Visual feedback on the upload box
-            const uploadText = document.querySelector('.upload-content p');
-            uploadText.innerText = file.name;
-            uploadText.style.color = "#60a5fa";
+            document.querySelector('.upload-content p').innerText = file.name;
+            document.querySelector('.upload-content p').style.color = "#60a5fa";
 
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -407,16 +264,14 @@
 
                 if (['html', 'htm'].includes(currentExtension)) {
                     isHtmlMode = true; htmlContent = rawCode;
-                    setupVisualEditor();
-                    DOM.topSearchBar.style.display = 'none'; 
+                    setupVisualEditor(); DOM.topSearchBar.style.display = 'none'; 
                 } else {
                     isHtmlMode = false; currentCodeLines = rawCode.split('\n');
                     checkForErrors(); setupInspector();
                     DOM.topSearchBar.style.display = 'block'; 
                     DOM.searchResult.innerHTML = ''; DOM.funcSearchInput.value = '';
                 }
-                DOM.addSection.style.display = 'flex';
-                DOM.downloadBtn.style.display = 'block';
+                DOM.addSection.style.display = 'flex'; DOM.downloadBtn.style.display = 'block';
             };
             reader.readAsText(file);
         });
@@ -466,50 +321,31 @@
 
         DOM.closeErrorPanel.addEventListener('click', () => { DOM.errorPanel.style.display = 'none'; DOM.errorTab.style.display = 'block'; });
 
-        // ========= THIS IS THE UPDATED BUTTON LOGIC =========
         DOM.autoFixBtn.addEventListener('click', () => {
             if(foundError) {
-                // 1. Fix the error
                 currentCodeLines[foundError.index] = foundError.fixed;
-                
-                // 2. Hide error panel and error tab completely
-                DOM.errorPanel.style.display = 'none'; 
-                DOM.errorTab.style.display = 'none';
-                foundError = null; 
-                
-                // 3. Re-check for new errors and setup inspector
-                checkForErrors(); 
-                setupInspector();
-
-                // 4. Trigger download automatically 
+                DOM.errorPanel.style.display = 'none'; DOM.errorTab.style.display = 'none';
+                foundError = null; checkForErrors(); setupInspector();
                 DOM.downloadBtn.click();
             }
         });
-        // ====================================================
 
         DOM.searchFuncBtn.addEventListener('click', () => {
             const searchTerm = DOM.funcSearchInput.value.trim().replace(/\s/g, '');
             if(!searchTerm) return;
             let found = false; const searchRegex = new RegExp(`\\b${searchTerm}\\b`, 'i'); 
-
             for(let line of currentCodeLines) {
                 if(searchRegex.test(line) && (line.includes('function') || line.includes('def') || line.includes('void') || line.includes('('))) { found = true; break; }
             }
-
             if(found) {
                 DOM.searchResult.innerHTML = `<span style="color: #34d399;">System: Block '${searchTerm}' verified active.</span>`;
             } else {
-                DOM.searchResult.innerHTML = `
-                    <span style="color: #f87171;">System: Block not found.</span> 
-                    <button class="quick-add-btn" id="quickAddFuncBtn">Initialize ${searchTerm}()</button>
-                `;
+                DOM.searchResult.innerHTML = `<span style="color: #f87171;">System: Block not found.</span> <button class="quick-add-btn" id="quickAddFuncBtn">Initialize ${searchTerm}()</button>`;
                 document.getElementById('quickAddFuncBtn').onclick = () => {
                     const isPython = (currentExtension === 'py'); const isCStyle = ['cpp', 'cs', 'c', 'java'].includes(currentExtension);
                     let codeToAdd = isPython ? `\ndef ${searchTerm}():\n    pass\n` : (isCStyle ? `\nvoid ${searchTerm}() {\n}\n` : `\nfunction ${searchTerm}() {\n}\n`);
-                    let commentHeader = isPython ? `\n\n# MODULE: ${searchTerm}` : `\n\n// MODULE: ${searchTerm}`;
-                    currentCodeLines.push(commentHeader); currentCodeLines.push(codeToAdd);
-                    DOM.searchResult.innerHTML = `<span style="color: #34d399;">System: Block initialized.</span>`;
-                    setupInspector(); 
+                    currentCodeLines.push(`\n\n// MODULE: ${searchTerm}`); currentCodeLines.push(codeToAdd);
+                    DOM.searchResult.innerHTML = `<span style="color: #34d399;">System: Block initialized.</span>`; setupInspector(); 
                 };
             }
         });
@@ -520,12 +356,75 @@
             DOM.visual.style.display = 'none'; DOM.inspector.style.display = 'block';
             DOM.uiContainer.innerHTML = '';
 
+            const classRegex = /\b(public|private|protected|internal)?\s*class\s+([a-zA-Z0-9_]+)/;
             const variableRegex = /\b([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(["']?[^;]+["']?)/;
             const headerRegex = /^\s*(#|\/\/)\s*(.+)$/;
 
+            // CLASS PARSER
+            let classSectionHTML = document.createElement('div');
+            let hasClasses = false;
+            classSectionHTML.innerHTML = `<div class="inspector-header">🏛️ Detected Classes & Structures</div>`;
+            
+            currentCodeLines.forEach((line, index) => {
+                const match = line.match(classRegex);
+                if (match) {
+                    hasClasses = true;
+                    let visibility = match[1] || "internal";
+                    let className = match[2];
+                    
+                    let meaning = classMeanings[className];
+                    if(!meaning) meaning = "Custom Class: Apna khud ka logic, variables aur functions store karne ka container.";
+
+                    let card = document.createElement('div');
+                    card.className = 'class-card';
+                    card.innerHTML = `
+                        <div class="class-info">
+                            <strong><span style="color:#c084fc">${visibility}</span> class ${className}</strong>
+                            <div class="class-meaning">💡 ${meaning}</div>
+                        </div>
+                    `;
+                    
+                    let delBtn = document.createElement('button');
+                    delBtn.className = 'remove-btn';
+                    delBtn.innerText = '🗑️ Remove';
+                    delBtn.title = "Delete entire class block";
+                    
+                    delBtn.onclick = () => {
+                        if(confirm(`Kya tum waqai '${className}' class aur uske andar ka saara code delete karna chahte ho?`)) {
+                            let openBrackets = 0;
+                            let started = false;
+                            let endIndex = index;
+                            
+                            for (let i = index; i < currentCodeLines.length; i++) {
+                                if (currentCodeLines[i].includes('{')) { openBrackets++; started = true; }
+                                if (currentCodeLines[i].includes('}')) { openBrackets--; }
+                                
+                                if (started && openBrackets === 0) {
+                                    endIndex = i;
+                                    break;
+                                }
+                            }
+                            currentCodeLines.splice(index, (endIndex - index) + 1);
+                            setupInspector();
+                        }
+                    };
+                    
+                    card.appendChild(delBtn);
+                    classSectionHTML.appendChild(card);
+                }
+            });
+            
+            if(hasClasses) DOM.uiContainer.appendChild(classSectionHTML);
+
+            // VARIABLE & HEADER PARSER
+            let varSectionHeader = document.createElement('div');
+            varSectionHeader.className = 'inspector-header';
+            varSectionHeader.innerText = "⚙️ Variables & Logic Controls";
+            DOM.uiContainer.appendChild(varSectionHeader);
+
             currentCodeLines.forEach((line, index) => {
                 const headerMatch = line.match(headerRegex);
-                if (headerMatch) {
+                if (headerMatch && !line.includes("MODULE:")) {
                     const headerTitle = document.createElement('div'); headerTitle.className = 'inspector-header';
                     headerTitle.innerText = headerMatch[2]; DOM.uiContainer.appendChild(headerTitle); return; 
                 }
@@ -561,15 +460,29 @@
         }
 
         DOM.addBtn.addEventListener('click', () => {
-            const searchVal = DOM.addInput.value.toLowerCase().trim();
+            const searchVal = DOM.addInput.value.trim();
             if(!searchVal) return;
+            let searchLower = searchVal.toLowerCase();
+
             if (isHtmlMode) {
                 const iframeDoc = DOM.iframe.contentWindow.document;
-                let elementHTML = searchVal === "h1" ? "<h1>New Heading</h1>" : (searchVal === "button" ? "<button>Click Me</button>" : `<div style="border:1px dashed #ccc; padding:10px;">New ${searchVal}</div>`);
+                let elementHTML = searchLower === "h1" ? "<h1>New Heading</h1>" : (searchLower === "button" ? "<button>Click Me</button>" : `<div style="border:1px dashed #ccc; padding:10px;">New ${searchVal}</div>`);
                 iframeDoc.body.innerHTML += elementHTML;
             } else {
-                const isPython = (currentExtension === 'py'); const isCStyle = ['cpp', 'cs', 'c', 'java'].includes(currentExtension);
-                let codeToAdd = (searchVal === "var" || searchVal === "variable") ? (isPython ? "\nnew_variable = 0\n" : (isCStyle ? "\nint newVariable = 0;\n" : "\nlet newVariable = 0;\n")) : (isPython ? `\n# ${searchVal}\n` : `\n// ${searchVal}\n`);
+                let codeToAdd = "";
+                if (searchLower.includes("class")) {
+                    let parts = searchVal.split(" ");
+                    let className = parts[parts.length - 1];
+                    if(className.toLowerCase() === "class") className = "NewClass";
+                    let visibility = searchLower.includes("private") ? "private" : "public";
+                    codeToAdd = `\n${visibility} class ${className}\n{\n    // Define ${className} logic here\n}\n`;
+                } else if(searchLower === "var" || searchLower === "variable") {
+                    const isPython = (currentExtension === 'py'); const isCStyle = ['cpp', 'cs', 'c', 'java'].includes(currentExtension);
+                    codeToAdd = isPython ? "\nnew_variable = 0\n" : (isCStyle ? "\nint newVariable = 0;\n" : "\nlet newVariable = 0;\n");
+                } else {
+                    const isPython = (currentExtension === 'py');
+                    codeToAdd = isPython ? `\n# ${searchVal}\n` : `\n// ${searchVal}\n`;
+                }
                 currentCodeLines.push(codeToAdd); setupInspector(); 
             }
             DOM.addInput.value = "";
